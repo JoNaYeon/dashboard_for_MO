@@ -1,0 +1,166 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+  background: #f0f4f8;
+  color: #2d3748;
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #1a365d 0%, #2a4a7f 100%);
+  color: white;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+header .subtitle { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+header .period { font-size: 13px; opacity: 0.85; text-align: right; }
+
+.filter-bar {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.filter-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.filter-inner label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5568;
+}
+.filter-inner input[type="date"] {
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #2d3748;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.filter-inner input[type="date"]:focus { border-color: #3182ce; }
+.filter-inner span { color: #a0aec0; font-size: 14px; }
+.filter-inner span.divider {
+  width: 1px; height: 20px;
+  background: #e2e8f0;
+  margin: 0 4px;
+}
+.filter-inner select {
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #2d3748;
+  background: white;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.filter-inner select:focus { border-color: #3182ce; }
+.filter-inner button {
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.filter-inner button#btn-apply {
+  background: #3182ce;
+  color: white;
+}
+.filter-inner button#btn-apply:hover { background: #2b6cb0; }
+.filter-inner button.secondary {
+  background: #edf2f7;
+  color: #4a5568;
+}
+.filter-inner button.secondary:hover { background: #e2e8f0; }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 20px; }
+
+/* KPI Cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  border-left: 4px solid #3182ce;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.kpi-card.green  { border-left-color: #38a169; }
+.kpi-card.orange { border-left-color: #dd6b20; }
+.kpi-card.purple { border-left-color: #805ad5; }
+.kpi-card.teal   { border-left-color: #319795; }
+
+.kpi-label { font-size: 12px; color: #718096; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+.kpi-value { font-size: 32px; font-weight: 800; color: #1a202c; line-height: 1; }
+.kpi-unit  { font-size: 14px; font-weight: 400; color: #718096; margin-left: 4px; }
+.kpi-sub   { font-size: 12px; color: #a0aec0; margin-top: 6px; }
+
+/* Chart Grids */
+.chart-row {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.row-1col        { grid-template-columns: 1fr; }
+.row-2col        { grid-template-columns: 1fr 1fr; }
+.row-3col        { grid-template-columns: 2fr 1fr 1fr; }
+.row-2col-wide   { grid-template-columns: 3fr 2fr; }
+.row-age-gender  { grid-template-columns: 3fr 1fr; }
+
+.chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.chart-card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 4px;
+}
+.chart-card .chart-desc {
+  font-size: 12px;
+  color: #a0aec0;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+canvas { width: 100% !important; }
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: #718096;
+  font-size: 16px;
+}
+
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .row-3col { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .row-2col, .row-2col-wide, .row-3col, .row-age-gender { grid-template-columns: 1fr; }
+}

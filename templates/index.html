@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>판독의 업무 대시보드</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>판독의 업무 현황 대시보드</h1>
+    <div class="subtitle" id="doctor-name">판독의 정보 로딩 중...</div>
+  </div>
+  <div class="period" id="period-label"></div>
+</header>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <label>판독의</label>
+    <select id="doctor-select"></select>
+    <span class="divider"></span>
+    <label>판독일자</label>
+    <input type="date" id="date-from">
+    <span>~</span>
+    <input type="date" id="date-to">
+    <button id="btn-apply">적용</button>
+    <button id="btn-reset" class="secondary">전체</button>
+  </div>
+</div>
+
+<div class="container" id="main-content">
+  <div class="loading">데이터를 불러오는 중입니다...</div>
+</div>
+
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>
