@@ -471,6 +471,12 @@ async function init() {
     fetch('/api/range'),
     fetch('/api/doctors'),
   ]);
+
+  if (!rangeRes.ok || !doctorsRes.ok) {
+    const status = !rangeRes.ok ? rangeRes.status : doctorsRes.status;
+    throw new Error(`서버 오류 (HTTP ${status}). 잠시 후 새로고침해 주세요.`);
+  }
+
   const range   = await rangeRes.json();
   const doctors = await doctorsRes.json();
 
