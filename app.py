@@ -26,6 +26,14 @@ def _clean_list(lst):
 app = Flask(__name__)
 
 
+def _parse_date(series: pd.Series) -> pd.Series:
+    """YYMMDD 또는 YYYYMMDD → datetime"""
+    s = series.astype(str).str.split('.').str[0].str.strip()
+    # 6자리(YYMMDD)면 '20' 붙여서 8자리로 변환
+    s = s.where(s.str.len() == 8, '20' + s.str.zfill(6))
+    return pd.to_datetime(s, format='%Y%m%d', errors='coerce')
+
+
 def load_data() -> pd.DataFrame:
     now = time.time()
     if _cache['df'] is not None and now - _cache['ts'] < CACHE_TTL:
@@ -36,14 +44,17 @@ def load_data() -> pd.DataFrame:
 
     text = raw.decode('utf-8-sig')
     df = pd.read_csv(StringIO(text))
-    df.columns = ['촬영일자', '판독일자', '등록번호', '성별', '연령', '검사명', '판독의']
+    df.columns = ['촬영일자', '촬영시간', '판독일자', '등록번호', '성별', '연령', '검사명', '판독의']
 
-    df['촬영일자'] = pd.to_datetime(
-        df['촬영일자'].astype(str).str.split('.').str[0], format='%Y%m%d', errors='coerce'
+    df['촬영일자'] = _parse_date(df['촬영일자'])
+    df['판독일자'] = _parse_date(df['판독일자'])
+
+    # 연령: '071Y' → 71
+    df['연령'] = pd.to_numeric(
+        df['연령'].astype(str).str.replace(r'[^0-9]', '', regex=True),
+        errors='coerce'
     )
-    df['판독일자'] = pd.to_datetime(
-        df['판독일자'].astype(str).str.split('.').str[0], format='%Y%m%d', errors='coerce'
-    )
+
     df = df.dropna(subset=['판독일자'])
     df['판독소요일'] = (df['판독일자'] - df['촬영일자']).dt.days
     df['판독_요일']  = df['판독일자'].dt.day_name()
