@@ -474,8 +474,13 @@ async function init() {
   const range   = await rangeRes.json();
   const doctors = await doctorsRes.json();
 
-  document.getElementById('date-from').value = range.min;
-  document.getElementById('date-to').value   = range.max;
+  const toDate   = new Date(range.max);
+  const fromDate = new Date(toDate);
+  fromDate.setDate(fromDate.getDate() - 6);  // 최근 7일 (당일 포함)
+  const fmt7 = d => d.toISOString().slice(0, 10);
+
+  document.getElementById('date-from').value = fmt7(fromDate);
+  document.getElementById('date-to').value   = fmt7(toDate);
 
   const sel = document.getElementById('doctor-select');
   sel.innerHTML = '<option value="전체">전체</option>' +
@@ -485,8 +490,8 @@ async function init() {
 
   document.getElementById('btn-apply').addEventListener('click', loadDashboard);
   document.getElementById('btn-reset').addEventListener('click', () => {
-    document.getElementById('date-from').value = range.min;
-    document.getElementById('date-to').value   = range.max;
+    document.getElementById('date-from').value = fmt7(fromDate);
+    document.getElementById('date-to').value   = fmt7(toDate);
     document.getElementById('doctor-select').value = '전체';
     loadDashboard();
   });
